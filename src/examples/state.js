@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 
+
 const computeInit = () => Math.trunc(Math.random() * 20);
 
 function App() {
@@ -55,6 +56,37 @@ function App() {
       <pre>
         {JSON.stringify(state, null, 2)}
       </pre>
+    </div>
+  );
+}
+
+export default App;
+
+function App() {
+  const [type, setType] = useState("users");
+
+  return (
+    <div className={"container"}>
+      <h1>Ресурс: {type}</h1>
+      <button
+        className={"btn btn-success"}
+        onClick={() => setType("users")}
+      >
+        {"Users"}
+      </button>
+      <button
+        className={"btn btn-danger"}
+        onClick={() => setType("Todo")}
+      >
+        {"Todo"}
+      </button>
+      <button
+        className={"btn btn-warning"}
+        onClick={() => setType("Posts")}
+      >
+        {"Posts"}
+      </button>
+
     </div>
   );
 }
