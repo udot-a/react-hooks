@@ -15,7 +15,7 @@ const ItemList = ({getItems}) => {
         <li key={idx}>{item}</li>
       ))}
     </ul>
-    )
+  )
 }
 
 function App() {
@@ -23,8 +23,8 @@ function App() {
   const [colored, setColored] = useState(false);
 
   const styles = {
-      color: colored ? "tomato" : "black"
-    }
+    color: colored ? "tomato" : "black"
+  }
 
   const generateItems =useCallback(() =>
     new Array(count).fill("").map((_, idx) => `Element #${idx+1}`), [count])
