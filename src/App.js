@@ -1,54 +1,43 @@
-import React, {useState, useEffect, useRef, useMemo, useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 
-const ItemList = ({getItems}) => {
-  const [items, setItems] = useState([]);
-
+function useLogger(value) {
   useEffect(() => {
-    setItems(getItems());
-    console.log("RENDER")
-  }, [getItems])
+    console.log("Value change: ", value);
+  }, [value])
+}
 
-  return (
-    <ul>
-      {items.map((item, idx) => (
-        <li key={idx}>{item}</li>
-      ))}
-    </ul>
-    )
+function useInput(initialValue) {
+  const [value, setValue] = useState(initialValue);
+
+  const onChange = ({target: { value }}) => {
+    setValue(value);
+  }
+
+  const clear = () => setValue("");
+
+  return {
+    bind: {
+      value,
+      onChange
+    },
+    value,
+    clear
+  }
+
 }
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [colored, setColored] = useState(false);
+  const input = useInput("");
 
-  const styles = {
-      color: colored ? "tomato" : "black"
-    }
-
-  const generateItems =useCallback(() =>
-    new Array(count).fill("").map((_, idx) => `Element #${idx+1}`), [count])
-
+  useLogger(input.value);
   return (
-    <div className={"container"}>
-      <h1 style={styles}>Вычисляемлое свойство: {count}</h1>
-      <button
-        className={"btn btn-success"}
-        name={"inc"}
-        onClick={() => setCount(prev => prev +1)}
-      >
-        Добавить
-      </button>
+      <div className={"container"}>
+        <input type="text" {...input.bind}/>
+        <button className={"btn btn-warning"} onClick={() => input.clear()}>{"Clear"}</button>
 
-      <button
-        className={"btn btn-warning"}
-        onClick={() => setColored(prev => !prev)}
-      >
-        Изменить
-      </button>
-
-      <ItemList getItems={generateItems}/>
-    </div>
+        <h3>{input.value}</h3>
+      </div>
   );
 }
 
